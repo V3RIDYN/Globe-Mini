@@ -1,44 +1,24 @@
-# Globe Mini Crossword v0.1
+# Globe Mini — Google Sheets connected version v0.2
 
-A playable 5×5 weekly mini crossword prototype for The Globe.
+This package is connected to the published Google Sheets CSV feed:
 
-## Included features
+https://docs.google.com/spreadsheets/d/e/2PACX-1vR3ahvvaBZxl36o7wCybngwNVpFPVmH4PtqaWEv92rQdvgd1-YIsu_jbphwc6SJog/pub?gid=305675118&single=true&output=csv
 
-- 5×5 crossword grid
-- Automatic clue numbering
-- Across and Down clues
-- Mouse, touchscreen, and keyboard entry
-- Click the same crossing square again to switch direction
-- Arrow-key navigation
-- Active square and active word highlighting
-- Check Square
-- Check Current Word
-- Check Entire Puzzle
-- Reveal Square
-- Reveal Current Word
-- Reveal Entire Puzzle
-- Confirmation before revealing
-- Timer
-- Mistake count
-- Saved browser progress
-- Completion popup
-- Optional overall hint
-- Responsive layout for SNO embedding
+## Upload to GitHub
 
-## Test locally
+Upload and replace these files in the root of the Globe Mini repository:
 
-Unzip the folder and open `index.html`.
+- index.html
+- style.css
+- config.js
+- sample-puzzle.js
+- script.js
 
-The included sample crossword is only for testing the game interface.
+GitHub Pages will rebuild automatically after you commit.
 
-## Connect Google Sheets later
+## Required spreadsheet headers
 
-1. Publish a compact feed sheet as CSV.
-2. Open `config.js`.
-3. Paste its published CSV address into `puzzleFeedUrl`.
-4. Upload the revised files to GitHub.
-
-The expected feed columns are:
+The published tab must include these exact column headings:
 
 - Week Start
 - Puzzle #
@@ -50,20 +30,24 @@ The expected feed columns are:
 - Down Clues
 - Overall Hint
 
-Grid example:
+## Required row format
 
-`PRESS/R#A#T/EARTH/S#E#R/STORY`
+- Status must be `Ready`
+- Week Start should be a Monday
+- Grid must contain five rows separated by `/`
+- Each grid row must contain exactly five letters or `#`
+- Clues use `number|clue;number|clue`
 
-Clue example:
+Example grid:
 
-`1|The news media, collectively;6|Our planet;7|A reported narrative`
+PRESS/R#A#T/EARTH/S#E#R/STORY
 
-## GitHub upload
+## Testing
 
-Upload all five files to the root of a GitHub repository:
+The game normally selects the newest Ready puzzle whose Week Start has arrived.
 
-- index.html
-- style.css
-- config.js
-- sample-puzzle.js
-- script.js
+To test a specific week, add:
+
+?week=2026-08-03
+
+to the end of the GitHub Pages URL.

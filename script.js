@@ -98,6 +98,21 @@ function mondayKey(date = new Date()) {
   return localDate.toISOString().slice(0, 10);
 }
 
+
+function normalizeWeekStart(value) {
+  const text = String(value || "").trim();
+
+  const iso = text.match(/^(\d{4})-(\d{2})-(\d{2})/);
+  if (iso) return `${iso[1]}-${iso[2]}-${iso[3]}`;
+
+  const slash = text.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
+  if (slash) {
+    return `${slash[3]}-${slash[1].padStart(2, "0")}-${slash[2].padStart(2, "0")}`;
+  }
+
+  return text;
+}
+
 async function loadPuzzle() {
   if (!MINI_CONFIG.puzzleFeedUrl) return SAMPLE_MINI_PUZZLE;
 
@@ -115,7 +130,9 @@ async function loadPuzzle() {
     row.some(cell => cell.trim().toUpperCase() === "GRID")
   );
 
-  if (headerIndex === -1) throw new Error("Could not find the feed headers.");
+  if (headerIndex === -1) {
+    throw new Error("Could not find the feed headers. The published tab must include Week Start, Grid, Across Clues, and Down Clues.");
+  }
 
   const headers = rows[headerIndex].map(cell => cell.trim().toUpperCase());
   const index = name => headers.indexOf(name);
@@ -123,7 +140,7 @@ async function loadPuzzle() {
 
   const candidates = rows.slice(headerIndex + 1)
     .map(row => ({
-      weekStart: String(row[index("WEEK START")] || "").trim(),
+      weekStart: normalizeWeekStart(row[index("WEEK START")]),
       puzzleNumber: String(row[index("PUZZLE #")] || "").trim(),
       title: String(row[index("TITLE")] || "").trim(),
       author: String(row[index("AUTHOR")] || "").trim(),
@@ -137,7 +154,9 @@ async function loadPuzzle() {
     .filter(item => item.weekStart <= targetWeek)
     .sort((a, b) => b.weekStart.localeCompare(a.weekStart));
 
-  if (!candidates.length) throw new Error("No Ready crossword is available.");
+  if (!candidates.length) {
+    throw new Error(`No Ready crossword is available for week ${targetWeek}. Check the Week Start date and set Status to Ready.`);
+  }
   return candidates[0];
 }
 
