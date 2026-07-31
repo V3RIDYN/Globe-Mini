@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Globe Mini Crossword</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="game-shell">
+    <header class="game-header">
+      <div class="publication-label">THE GLOBE PRESENTS</div>
+      <div class="title-row">
+        <h1>Mini Crossword</h1>
+        <button id="helpButton" class="icon-button" type="button" aria-label="How to play">?</button>
+      </div>
+      <div class="meta-row">
+        <span id="puzzleTitle">Loading puzzle…</span>
+        <span id="timer">00:00</span>
+      </div>
+    </header>
+
+    <section id="helpPanel" class="help-panel" hidden>
+      <strong>How to play:</strong> Click a square and type. Click the same square again to switch between Across and Down. Use arrow keys to move.
+    </section>
+
+    <section class="toolbar" aria-label="Puzzle tools">
+      <button id="checkButton" type="button">Check</button>
+      <button id="revealButton" type="button">Reveal</button>
+      <button id="hintButton" type="button" disabled>Hint</button>
+    </section>
+
+    <section id="hintPanel" class="hint-panel" hidden>
+      <strong>Overall hint:</strong> <span id="hintText"></span>
+    </section>
+
+    <section class="puzzle-layout">
+      <div>
+        <div id="grid" class="crossword-grid" aria-label="Crossword grid"></div>
+        <div class="status-row">
+          <span>Mistakes: <strong id="mistakeCount">0</strong></span>
+          <button id="clearButton" type="button">Clear saved game</button>
+        </div>
+      </div>
+
+      <div class="clues-panel">
+        <section>
+          <h2>Across</h2>
+          <ol id="acrossClues" class="clue-list"></ol>
+        </section>
+        <section>
+          <h2>Down</h2>
+          <ol id="downClues" class="clue-list"></ol>
+        </section>
+      </div>
+    </section>
+
+    <footer class="game-footer">
+      <span id="byline">A weekly puzzle from <em>The Globe</em></span>
+      <small>Prototype v0.1</small>
+    </footer>
+  </main>
+
+  <div id="menuModal" class="modal-backdrop" aria-hidden="true">
+    <section class="menu-modal" role="dialog" aria-modal="true" aria-labelledby="menuTitle">
+      <button class="modal-close" data-close="menuModal" type="button" aria-label="Close">×</button>
+      <h2 id="menuTitle"></h2>
+      <div id="menuOptions" class="menu-options"></div>
+    </section>
+  </div>
+
+  <div id="resultModal" class="modal-backdrop" aria-hidden="true">
+    <section class="result-modal" role="dialog" aria-modal="true" aria-labelledby="resultTitle">
+      <button class="modal-close" data-close="resultModal" type="button" aria-label="Close">×</button>
+      <div class="publication-label">THE GLOBE</div>
+      <h2 id="resultTitle">Congratulations!</h2>
+      <p id="resultMessage"></p>
+      <p>Come back next week for a new mini crossword.</p>
+      <button id="doneButton" class="primary-button" type="button">Done</button>
+    </section>
+  </div>
+
+  <script src="config.js"></script>
+  <script src="sample-puzzle.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
